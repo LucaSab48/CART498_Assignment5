@@ -1,50 +1,54 @@
-<!doctype html> 
+<!doctype html>
 <html lang="en">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Postcards From My Jungle</title>
+  <title>Field Notes</title>
 
   <style>
     :root{
-      --bg: #0b0f0c;
-      --fg: #e8f2e8;
-      --muted: rgba(232,242,232,.72);
-      --card: rgba(255,255,255,.06);
-      --border: rgba(255,255,255,.10);
+      --bg: #090807;
+      --bg2: #1a1511;
+      --fg: #f0e9d6;
+      --muted: rgba(240,233,214,.62);
+      --card: rgba(26,20,16,.75);
+      --border: rgba(227,197,146,.28);
+      --accent: #b3874d;
     }
 
     *{ box-sizing: border-box; }
 
     html{
-      scroll-behavior: smooth;
+      scroll-behavior: auto;
     }
 
     body{
       margin: 0;
-      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      font-family: "Courier New", Courier, monospace;
       color: var(--fg);
-      background: radial-gradient(1200px 800px at 50% 0%, #132017 0%, var(--bg) 55%);
-
+      background:
+        radial-gradient(900px 520px at 20% 10%, rgba(179,135,77,.14) 0%, transparent 60%),
+        radial-gradient(760px 400px at 88% 86%, rgba(120,80,45,.18) 0%, transparent 65%),
+        linear-gradient(145deg, var(--bg2) 0%, var(--bg) 55%);
       overflow-x: scroll;
       overflow-y: hidden;
-
       scroll-snap-type: x mandatory;
-
       display: flex;
     }
 
-    /* Hide scrollbar → cinematic gallery look */
     body::-webkit-scrollbar{
-      display: none;
+      height: 10px;
+    }
+
+    body::-webkit-scrollbar-thumb{
+      background: rgba(179,135,77,.45);
+      border-radius: 999px;
     }
 
     .slide{
       height: 100vh;
       min-width: 100vw;
-
       scroll-snap-align: start;
-
       display: grid;
       place-items: center;
       padding: 28px;
@@ -54,10 +58,10 @@
       width: min(980px, 92vw);
       border: 1px solid var(--border);
       background: var(--card);
-      border-radius: 18px;
-      padding: 18px;
-      box-shadow: 0 10px 40px rgba(0,0,0,.35);
-      backdrop-filter: blur(10px);
+      border-radius: 4px;
+      padding: 16px;
+      box-shadow: 0 0 0 1px rgba(0,0,0,.5), 0 18px 40px rgba(0,0,0,.4);
+      transform: rotate(-0.2deg);
     }
 
     .top{
@@ -65,18 +69,21 @@
       justify-content: space-between;
       align-items: baseline;
       gap: 16px;
-      margin-bottom: 10px;
+      margin-bottom: 8px;
+      border-bottom: 1px dashed rgba(227,197,146,.32);
+      padding-bottom: 8px;
     }
 
     h1{
-      font-size: 20px;
+      font-size: 18px;
       margin: 0;
-      letter-spacing: .5px;
-      font-weight: 650;
+      letter-spacing: .08em;
+      font-weight: 500;
+      text-transform: uppercase;
     }
 
     .hint{
-      font-size: 13px;
+      font-size: 12px;
       color: var(--muted);
     }
 
@@ -94,12 +101,12 @@
     .img{
       width: 100%;
       aspect-ratio: 4 / 3;
-      border-radius: 14px;
+      border-radius: 2px;
       border: 1px solid var(--border);
       display: grid;
       place-items: center;
       overflow: hidden;
-      background: rgba(0,0,0,.25);
+      background: rgba(0,0,0,.3);
     }
 
     .img img{
@@ -107,41 +114,45 @@
       height: 100%;
       object-fit: cover;
       display: block;
+      filter: saturate(.75) contrast(1.05) brightness(.92);
     }
 
     .panel{
       border: 1px solid var(--border);
-      border-radius: 14px;
+      border-radius: 3px;
       padding: 14px;
-      background: rgba(0,0,0,.18);
+      background: rgba(0,0,0,.2);
     }
 
     .label{
       font-size: 12px;
       color: var(--muted);
-      letter-spacing: .08em;
+      letter-spacing: .14em;
       text-transform: uppercase;
-      margin-bottom: 8px;
+      margin-bottom: 6px;
     }
 
     .phrase{
-      font-size: 22px;
-      line-height: 1.25;
+      font-size: 20px;
+      line-height: 1.35;
       margin: 0 0 12px 0;
     }
 
     button{
       appearance: none;
       border: 1px solid var(--border);
-      background: rgba(255,255,255,.06);
+      background: rgba(179,135,77,.12);
       color: var(--fg);
-      border-radius: 12px;
+      border-radius: 2px;
       padding: 10px 12px;
       cursor: pointer;
-      font-weight: 600;
+      font-family: inherit;
+      letter-spacing: .06em;
     }
 
-    button:hover{ background: rgba(255,255,255,.10); }
+    button:hover{
+      background: rgba(179,135,77,.22);
+    }
 
     .small{
       font-size: 13px;
@@ -159,71 +170,79 @@
       color: var(--muted);
       font-size: 12px;
     }
+
+    .jump-fx{
+      animation: jumpFlash .22s linear;
+    }
+
+    @keyframes jumpFlash {
+      0% { filter: brightness(1.24); }
+      100% { filter: brightness(1); }
+    }
   </style>
 </head>
-
 <body>
 
-  <!-- Slide 1 -->
   <section class="slide">
     <div class="card">
       <div class="top">
-        <h1>Postcards From My Jungle</h1>
-        <div class="hint">Scroll → like slides</div>
+        <h1>Specimen 001: Mire Lynx</h1>
+        <div class="hint">keep moving ></div>
       </div>
 
       <div class="grid">
         <div class="img">
-          <img src="images/beast_0.png">
+          <img src="images/beast_0.png" alt="Mire Lynx">
         </div>
 
         <div class="panel">
-          <div class="label">Animal phrase</div>
-          <p class="phrase">“Krr-vala nesh torin.”</p>
+          <div class="label">name</div>
+          <p class="phrase">Mire Lynx</p>
+          <div class="label">phrase</div>
+          <p class="phrase">"Krr-vala nesh torin."</p>
 
-          <button id="play1">Play sound</button>
-          <audio id="audio1">
-            <source src="" type="audio/wav">
+          <button id="play1">play tape</button>
+          <audio id="audio1" controls preload="none">
+            <source src="audio/beast_001.wav" type="audio/wav">
           </audio>
 
-          <div class="small">
-            Fictional jungle archive specimen.
-          </div>
+          <div class="small">page edge torn / archive smells like rain</div>
 
           <div class="footer">
-            <span>Slide 1</span>
-            <span>Lo-fi ecosystem</span>
+            <span>1/2</span>
+            <span>ink faded</span>
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Slide 2 -->
   <section class="slide">
     <div class="card">
       <div class="top">
-        <h1>Beast 002</h1>
-        <div class="hint">Continue →</div>
+        <h1>Specimen 002: Ember Stag</h1>
+        <div class="hint">&lt; keep moving</div>
       </div>
 
       <div class="grid">
         <div class="img">
-          <img src="https://picsum.photos/1200/900?random=2">
+          <img src="images/beast_1.png" alt="Ember Stag">
         </div>
 
         <div class="panel">
-          <div class="label">Animal phrase</div>
-          <p class="phrase">“Ula-vesh ka’rin.”</p>
+          <div class="label">name</div>
+          <p class="phrase">Ember Stag</p>
+          <div class="label">phrase</div>
+          <p class="phrase">"Ula-vesh ka'rin."</p>
 
-          <button id="play2">Play sound</button>
-          <audio id="audio2">
-            <source src="" type="audio/wav">
+          <button id="play2">play tape</button>
+          <audio id="audio2" controls preload="none">
+            <source src="audio/beast_002.wav" type="audio/wav">
           </audio>
 
           <div class="footer">
-            <span>Slide 2</span>
-            <span>—</span>
+            <span>2/2</span>
+            <span>margin notes lost</span>
           </div>
         </div>
       </div>
@@ -231,46 +250,60 @@
   </section>
 
   <script>
+    const slides = Array.from(document.querySelectorAll(".slide"));
+    let index = 0;
+    let jumpLock = false;
+
+    function jumpTo(nextIndex){
+      if (jumpLock) return;
+      if (nextIndex < 0 || nextIndex >= slides.length) return;
+      jumpLock = true;
+      index = nextIndex;
+      const x = index * window.innerWidth;
+      document.body.classList.add("jump-fx");
+      window.scrollTo({ left: x, behavior: "auto" });
+      setTimeout(() => {
+        document.body.classList.remove("jump-fx");
+        jumpLock = false;
+      }, 220);
+    }
+
     function wirePlay(btnId, audioId){
       const btn = document.getElementById(btnId);
       const audio = document.getElementById(audioId);
 
-      btn.addEventListener('click', async () => {
-        if (!audio.querySelector('source').src) {
-          alert("Link a sound file later → sounds/yourfile.wav");
+      btn.addEventListener("click", async () => {
+        const src = audio.querySelector("source").getAttribute("src");
+        if (!src) {
+          alert("No tape linked.");
           return;
         }
-        await audio.play();
+        try {
+          await audio.play();
+        } catch (err) {
+          console.warn("Audio could not play.", err);
+        }
       });
     }
 
     wirePlay("play1", "audio1");
     wirePlay("play2", "audio2");
 
-    /* 🔥 Arrow key navigation (VERY nice UX polish) */
     document.addEventListener("keydown", (e) => {
-      const scrollAmount = window.innerWidth;
-
-      if (e.key === "ArrowRight") {
-        window.scrollBy({ left: scrollAmount, behavior: "smooth" });
-      }
-
-      if (e.key === "ArrowLeft") {
-        window.scrollBy({ left: -scrollAmount, behavior: "smooth" });
-      }
+      if (e.key === "ArrowRight") jumpTo(index + 1);
+      if (e.key === "ArrowLeft") jumpTo(index - 1);
     });
 
-    /* Trackpad / mouse wheel → horizontal */
     window.addEventListener("wheel", (e) => {
       if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
-        window.scrollBy({
-          left: e.deltaY,
-          behavior: "smooth"
-        });
+        jumpTo(index + (e.deltaY > 0 ? 1 : -1));
         e.preventDefault();
       }
     }, { passive: false });
-  </script>
 
+    window.addEventListener("resize", () => {
+      window.scrollTo({ left: index * window.innerWidth, behavior: "auto" });
+    });
+  </script>
 </body>
 </html>
