@@ -1,0 +1,238 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Postcards From My Jungle</title>
+  <style>
+    :root{
+      --bg: #0b0f0c;
+      --fg: #e8f2e8;
+      --muted: rgba(232,242,232,.72);
+      --card: rgba(255,255,255,.06);
+      --border: rgba(255,255,255,.10);
+    }
+
+    *{ box-sizing: border-box; }
+    body{
+      margin: 0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      color: var(--fg);
+      background: radial-gradient(1200px 800px at 50% 0%, #132017 0%, var(--bg) 55%);
+      overflow-y: scroll;
+      scroll-snap-type: y mandatory; /* PowerPoint scroll */
+    }
+
+    .slide{
+      height: 100vh;
+      width: 100%;
+      scroll-snap-align: start;
+      display: grid;
+      place-items: center;
+      padding: 28px;
+    }
+
+    .card{
+      width: min(980px, 92vw);
+      border: 1px solid var(--border);
+      background: var(--card);
+      border-radius: 18px;
+      padding: 18px;
+      box-shadow: 0 10px 40px rgba(0,0,0,.35);
+      backdrop-filter: blur(10px);
+    }
+
+    .top{
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 16px;
+      margin-bottom: 10px;
+    }
+
+    h1{
+      font-size: 20px;
+      margin: 0;
+      letter-spacing: .5px;
+      font-weight: 650;
+    }
+
+    .hint{
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    .grid{
+      display: grid;
+      grid-template-columns: 1.2fr .8fr;
+      gap: 16px;
+      align-items: start;
+    }
+
+    @media (max-width: 860px){
+      .grid{ grid-template-columns: 1fr; }
+    }
+
+    .img{
+      width: 100%;
+      aspect-ratio: 4 / 3;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      display: grid;
+      place-items: center;
+      overflow: hidden;
+      background: rgba(0,0,0,.25);
+    }
+
+    .img img{
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .panel{
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 14px;
+      background: rgba(0,0,0,.18);
+    }
+
+    .label{
+      font-size: 12px;
+      color: var(--muted);
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+
+    .phrase{
+      font-size: 22px;
+      line-height: 1.25;
+      margin: 0 0 12px 0;
+    }
+
+    button{
+      appearance: none;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,.06);
+      color: var(--fg);
+      border-radius: 12px;
+      padding: 10px 12px;
+      cursor: pointer;
+      font-weight: 600;
+    }
+    button:hover{ background: rgba(255,255,255,.10); }
+
+    .small{
+      font-size: 13px;
+      color: var(--muted);
+      margin-top: 10px;
+      line-height: 1.35;
+    }
+
+    .footer{
+      margin-top: 14px;
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      flex-wrap: wrap;
+      color: var(--muted);
+      font-size: 12px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Slide 1 -->
+  <section class="slide" aria-label="Slide 1">
+    <div class="card">
+      <div class="top">
+        <h1>Postcards From My Jungle</h1>
+        <div class="hint">Scroll ↓ like slides</div>
+      </div>
+
+      <div class="grid">
+        <div class="img">
+          <!-- Replace the src later when you have images -->
+          <img src="https://picsum.photos/1200/900?random=1" alt="Fictional jungle animal placeholder">
+        </div>
+
+        <div class="panel">
+          <div class="label">Animal phrase</div>
+          <p class="phrase">“Krr-vala nesh torin.”</p>
+
+          <button id="play1">Play sound</button>
+          <audio id="audio1" preload="none">
+            <!-- Replace later with your file, e.g. sounds/creature01.wav -->
+            <source src="" type="audio/wav">
+          </audio>
+
+          <div class="small">
+            This is a starter slide. Once you generate images + sounds, you’ll replace the image src and audio src with your own files.
+          </div>
+
+          <div class="footer">
+            <span>Slide 1 / 50 (eventually)</span>
+            <span>Lo-fi jungle archive</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Slide 2 -->
+  <section class="slide" aria-label="Slide 2">
+    <div class="card">
+      <div class="top">
+        <h1>Beast 002</h1>
+        <div class="hint">Keep scrolling</div>
+      </div>
+
+      <div class="grid">
+        <div class="img">
+          <img src="https://picsum.photos/1200/900?random=2" alt="Fictional jungle animal placeholder">
+        </div>
+
+        <div class="panel">
+          <div class="label">Animal phrase</div>
+          <p class="phrase">“Ula-vesh ka’rin.”</p>
+
+          <button id="play2">Play sound</button>
+          <audio id="audio2" preload="none">
+            <source src="" type="audio/wav">
+          </audio>
+
+          <div class="footer">
+            <span>Slide 2</span>
+            <span>—</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    // Simple play buttons (we’ll point these at real sound files later)
+    function wirePlay(btnId, audioId){
+      const btn = document.getElementById(btnId);
+      const audio = document.getElementById(audioId);
+      btn.addEventListener('click', async () => {
+        if (!audio.querySelector('source').src) {
+          alert("No sound file linked yet. Later you'll set src to sounds/yourfile.wav");
+          return;
+        }
+        try {
+          await audio.play();
+        } catch (e) {
+          console.log(e);
+          alert("Browser blocked autoplay. Try clicking again.");
+        }
+      });
+    }
+    wirePlay("play1", "audio1");
+    wirePlay("play2", "audio2");
+  </script>
+
+</body>
+</html>
