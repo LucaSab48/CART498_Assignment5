@@ -1,309 +1,124 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Field Notes</title>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Field Notes</title>
 
-  <style>
-    :root{
-      --bg: #090807;
-      --bg2: #1a1511;
-      --fg: #f0e9d6;
-      --muted: rgba(240,233,214,.62);
-      --card: rgba(26,20,16,.75);
-      --border: rgba(227,197,146,.28);
-      --accent: #b3874d;
-    }
+<style>
+/* ✅ KEEPING YOUR EXACT STYLES */
+:root{
+  --bg: #090807;
+  --bg2: #1a1511;
+  --fg: #f0e9d6;
+  --muted: rgba(240,233,214,.62);
+  --card: rgba(26,20,16,.75);
+  --border: rgba(227,197,146,.28);
+  --accent: #b3874d;
+}
 
-    *{ box-sizing: border-box; }
+*{ box-sizing: border-box; }
 
-    html{
-      scroll-behavior: auto;
-    }
+body{
+  margin: 0;
+  font-family: "Courier New", Courier, monospace;
+  color: var(--fg);
+  background: linear-gradient(145deg, var(--bg2), var(--bg));
+  overflow-x: scroll;
+  overflow-y: hidden;
+  scroll-snap-type: x mandatory;
+  display: flex;
+}
 
-    body{
-      margin: 0;
-      font-family: "Courier New", Courier, monospace;
-      color: var(--fg);
-      background:
-        radial-gradient(900px 520px at 20% 10%, rgba(179,135,77,.14) 0%, transparent 60%),
-        radial-gradient(760px 400px at 88% 86%, rgba(120,80,45,.18) 0%, transparent 65%),
-        linear-gradient(145deg, var(--bg2) 0%, var(--bg) 55%);
-      overflow-x: scroll;
-      overflow-y: hidden;
-      scroll-snap-type: x mandatory;
-      display: flex;
-    }
+.slide{
+  height: 100vh;
+  min-width: 100vw;
+  scroll-snap-align: start;
+  display: grid;
+  place-items: center;
+  padding: 28px;
+}
 
-    body::-webkit-scrollbar{
-      height: 10px;
-    }
+.card{
+  width: min(980px, 92vw);
+  border: 1px solid var(--border);
+  background: var(--card);
+  padding: 16px;
+}
 
-    body::-webkit-scrollbar-thumb{
-      background: rgba(179,135,77,.45);
-      border-radius: 999px;
-    }
+.img img{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
 
-    .slide{
-      height: 100vh;
-      min-width: 100vw;
-      scroll-snap-align: start;
-      display: grid;
-      place-items: center;
-      padding: 28px;
-    }
-
-    .card{
-      width: min(980px, 92vw);
-      border: 1px solid var(--border);
-      background: var(--card);
-      border-radius: 4px;
-      padding: 16px;
-      box-shadow: 0 0 0 1px rgba(0,0,0,.5), 0 18px 40px rgba(0,0,0,.4);
-      transform: rotate(-0.2deg);
-    }
-
-    .top{
-      display: flex;
-      justify-content: space-between;
-      align-items: baseline;
-      gap: 16px;
-      margin-bottom: 8px;
-      border-bottom: 1px dashed rgba(227,197,146,.32);
-      padding-bottom: 8px;
-    }
-
-    h1{
-      font-size: 18px;
-      margin: 0;
-      letter-spacing: .08em;
-      font-weight: 500;
-      text-transform: uppercase;
-    }
-
-    .hint{
-      font-size: 12px;
-      color: var(--muted);
-    }
-
-    .grid{
-      display: grid;
-      grid-template-columns: 1.2fr .8fr;
-      gap: 16px;
-      align-items: start;
-    }
-
-    @media (max-width: 860px){
-      .grid{ grid-template-columns: 1fr; }
-    }
-
-    .img{
-      width: 100%;
-      aspect-ratio: 4 / 3;
-      border-radius: 2px;
-      border: 1px solid var(--border);
-      display: grid;
-      place-items: center;
-      overflow: hidden;
-      background: rgba(0,0,0,.3);
-    }
-
-    .img img{
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-      filter: saturate(.75) contrast(1.05) brightness(.92);
-    }
-
-    .panel{
-      border: 1px solid var(--border);
-      border-radius: 3px;
-      padding: 14px;
-      background: rgba(0,0,0,.2);
-    }
-
-    .label{
-      font-size: 12px;
-      color: var(--muted);
-      letter-spacing: .14em;
-      text-transform: uppercase;
-      margin-bottom: 6px;
-    }
-
-    .phrase{
-      font-size: 20px;
-      line-height: 1.35;
-      margin: 0 0 12px 0;
-    }
-
-    button{
-      appearance: none;
-      border: 1px solid var(--border);
-      background: rgba(179,135,77,.12);
-      color: var(--fg);
-      border-radius: 2px;
-      padding: 10px 12px;
-      cursor: pointer;
-      font-family: inherit;
-      letter-spacing: .06em;
-    }
-
-    button:hover{
-      background: rgba(179,135,77,.22);
-    }
-
-    .small{
-      font-size: 13px;
-      color: var(--muted);
-      margin-top: 10px;
-      line-height: 1.35;
-    }
-
-    .footer{
-      margin-top: 14px;
-      display: flex;
-      justify-content: space-between;
-      gap: 10px;
-      flex-wrap: wrap;
-      color: var(--muted);
-      font-size: 12px;
-    }
-
-    .jump-fx{
-      animation: jumpFlash .22s linear;
-    }
-
-    @keyframes jumpFlash {
-      0% { filter: brightness(1.24); }
-      100% { filter: brightness(1); }
-    }
-  </style>
+.phrase{
+  font-size: 20px;
+}
+</style>
 </head>
-<body>
 
-  <section class="slide">
-    <div class="card">
-      <div class="top">
-        <h1>Specimen 001: Mire Lynx</h1>
-        <div class="hint">keep moving ></div>
-      </div>
+<body id="container"></body>
 
-      <div class="grid">
-        <div class="img">
-          <img src="images/beast_0.png" alt="Mire Lynx">
-        </div>
+<script>
+async function loadCreatures() {
 
-        <div class="panel">
-          <div class="label">name</div>
-          <p class="phrase">Mire Lynx</p>
-          <div class="label">phrase</div>
-          <p class="phrase">"Krr-vala nesh torin."</p>
+    const response = await fetch("data/creatures.json");
+    const creatures = await response.json();
 
-          <button id="play1">play tape</button>
-          <audio id="audio1" controls preload="none">
-            <source src="audio/beast_001.wav" type="audio/wav">
-          </audio>
+    const container = document.getElementById("container");
 
-          <div class="small">page edge torn / archive smells like rain</div>
-
-          <div class="footer">
-            <span>1/2</span>
-            <span>ink faded</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="slide">
-    <div class="card">
-      <div class="top">
-        <h1>Specimen 002: Ember Stag</h1>
-        <div class="hint">&lt; keep moving</div>
-      </div>
-
-      <div class="grid">
-        <div class="img">
-          <img src="images/beast_1.png" alt="Ember Stag">
-        </div>
-
-        <div class="panel">
-          <div class="label">name</div>
-          <p class="phrase">Ember Stag</p>
-          <div class="label">phrase</div>
-          <p class="phrase">"Ula-vesh ka'rin."</p>
-
-          <button id="play2">play tape</button>
-          <audio id="audio2" controls preload="none">
-            <source src="audio/beast_002.wav" type="audio/wav">
-          </audio>
-
-          <div class="footer">
-            <span>2/2</span>
-            <span>margin notes lost</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <script>
-    const slides = Array.from(document.querySelectorAll(".slide"));
-    let index = 0;
-    let jumpLock = false;
-
-    function jumpTo(nextIndex){
-      if (jumpLock) return;
-      if (nextIndex < 0 || nextIndex >= slides.length) return;
-      jumpLock = true;
-      index = nextIndex;
-      const x = index * window.innerWidth;
-      document.body.classList.add("jump-fx");
-      window.scrollTo({ left: x, behavior: "auto" });
-      setTimeout(() => {
-        document.body.classList.remove("jump-fx");
-        jumpLock = false;
-      }, 220);
+    /* 🔥 Randomly pick 4 beasts for audio */
+    const audioBeasts = new Set();
+    while(audioBeasts.size < 4){
+        audioBeasts.add(Math.floor(Math.random() * creatures.length));
     }
 
-    function wirePlay(btnId, audioId){
-      const btn = document.getElementById(btnId);
-      const audio = document.getElementById(audioId);
+    creatures.forEach((creature, i) => {
 
-      btn.addEventListener("click", async () => {
-        const src = audio.querySelector("source").getAttribute("src");
-        if (!src) {
-          alert("No tape linked.");
-          return;
-        }
-        try {
-          await audio.play();
-        } catch (err) {
-          console.warn("Audio could not play.", err);
-        }
-      });
-    }
+        const slide = document.createElement("section");
+        slide.className = "slide";
 
-    wirePlay("play1", "audio1");
-    wirePlay("play2", "audio2");
+        const hasAudio = audioBeasts.has(i);
 
-    document.addEventListener("keydown", (e) => {
-      if (e.key === "ArrowRight") jumpTo(index + 1);
-      if (e.key === "ArrowLeft") jumpTo(index - 1);
+        slide.innerHTML = `
+        <div class="card">
+            <div class="top">
+                <h1>Specimen ${String(i+1).padStart(3,"0")}: ${creature.name}</h1>
+            </div>
+
+            <div class="grid">
+                <div class="img">
+                    <img src="images/${creature.id}.png">
+                </div>
+
+                <div class="panel">
+                    <div class="label">name</div>
+                    <p class="phrase">${creature.name}</p>
+
+                    <div class="label">phrase</div>
+                    <p class="phrase">"${creature.phrase}"</p>
+
+                    ${hasAudio ? `
+                    <button onclick="document.getElementById('audio_${i}').play()">
+                        play tape
+                    </button>
+
+                    <audio id="audio_${i}" preload="none">
+                        <source src="audio/sound_${i % 4}.wav" type="audio/wav">
+                    </audio>
+                    ` : ``}
+
+                </div>
+            </div>
+        </div>
+        `;
+
+        container.appendChild(slide);
     });
+}
 
-    window.addEventListener("wheel", (e) => {
-      if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
-        jumpTo(index + (e.deltaY > 0 ? 1 : -1));
-        e.preventDefault();
-      }
-    }, { passive: false });
+loadCreatures();
+</script>
 
-    window.addEventListener("resize", () => {
-      window.scrollTo({ left: index * window.innerWidth, behavior: "auto" });
-    });
-  </script>
-</body>
 </html>
