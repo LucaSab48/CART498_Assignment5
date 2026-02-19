@@ -6,7 +6,6 @@
 <title>Field Notes</title>
 
 <style>
-/* ✅ KEEPING YOUR EXACT STYLES */
 :root{
   --bg: #090807;
   --bg2: #1a1511;
@@ -27,6 +26,7 @@ body{
   overflow-x: scroll;
   overflow-y: hidden;
   scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;   /* 🔥 smoother transitions */
   display: flex;
 }
 
@@ -44,16 +44,34 @@ body{
   border: 1px solid var(--border);
   background: var(--card);
   padding: 16px;
+
+  transform: rotate(-0.3deg);   /* 🔥 Analog drift */
+}
+
+
+/* 🔥 IMAGE FIX */
+.img{
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  border: 1px solid var(--border);
+  overflow: hidden;
+  background: rgba(0,0,0,.25);
 }
 
 .img img{
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
 }
 
 .phrase{
   font-size: 20px;
+}
+
+.label{
+  font-size: 12px;
+  color: var(--muted);
+  text-transform: uppercase;
 }
 </style>
 </head>
@@ -61,6 +79,28 @@ body{
 <body id="container"></body>
 
 <script>
+let currentSlide = 0;
+
+function autoAdvanceSlides() {
+
+    const slides = document.querySelectorAll(".slide");
+
+    setInterval(() => {
+
+        currentSlide++;
+
+        if (currentSlide >= slides.length) {
+            currentSlide = 0;
+        }
+
+        window.scrollTo({
+            left: currentSlide * window.innerWidth,
+            behavior: "smooth"
+        });
+
+    }, 20000);   // 🔥 20 seconds
+}
+
 async function loadCreatures() {
 
     const response = await fetch("data/creatures.json");
@@ -68,7 +108,6 @@ async function loadCreatures() {
 
     const container = document.getElementById("container");
 
-    /* 🔥 Randomly pick 4 beasts for audio */
     const audioBeasts = new Set();
     while(audioBeasts.size < 4){
         audioBeasts.add(Math.floor(Math.random() * creatures.length));
@@ -83,34 +122,29 @@ async function loadCreatures() {
 
         slide.innerHTML = `
         <div class="card">
-            <div class="top">
-                <h1>Specimen ${String(i+1).padStart(3,"0")}: ${creature.name}</h1>
+
+            <h1>Specimen ${String(i+1).padStart(3,"0")}: ${creature.name}</h1>
+
+            <div class="img">
+                <img src="images/${creature.id}.png">
             </div>
 
-            <div class="grid">
-                <div class="img">
-                    <img src="images/${creature.id}.png">
-                </div>
+            <div class="label">name</div>
+            <p class="phrase">${creature.name}</p>
 
-                <div class="panel">
-                    <div class="label">name</div>
-                    <p class="phrase">${creature.name}</p>
+            <div class="label">phrase</div>
+            <p class="phrase">"${creature.phrase}"</p>
 
-                    <div class="label">phrase</div>
-                    <p class="phrase">"${creature.phrase}"</p>
+            ${hasAudio ? `
+            <button onclick="document.getElementById('audio_${i}').play()">
+                play tape
+            </button>
 
-                    ${hasAudio ? `
-                    <button onclick="document.getElementById('audio_${i}').play()">
-                        play tape
-                    </button>
+            <audio id="audio_${i}" preload="none">
+                <source src="audio/sound_${i % 4}.wav" type="audio/wav">
+            </audio>
+            ` : ``}
 
-                    <audio id="audio_${i}" preload="none">
-                        <source src="audio/sound_${i % 4}.wav" type="audio/wav">
-                    </audio>
-                    ` : ``}
-
-                </div>
-            </div>
         </div>
         `;
 
@@ -118,7 +152,7 @@ async function loadCreatures() {
     });
 }
 
-loadCreatures();
+loadCreatures().then(autoAdvanceSlides);
 </script>
 
 </html>
