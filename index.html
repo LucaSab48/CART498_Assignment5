@@ -81,7 +81,7 @@ body{
 }
 
 .phrase{
-  font-size: 16px;
+  font-size: 18px;
   margin: 6px 0 12px;
 }
 
@@ -134,6 +134,50 @@ button:hover{
   cursor: pointer;
 }
 
+.archive-toggle{
+  position: fixed;
+  top: 16px;
+  right: 16px;
+  z-index: 10;
+  padding: 6px 10px;
+  font-size: 11px;
+}
+
+.archive-panel{
+  position: fixed;
+  top: 52px;
+  right: 16px;
+  width: min(260px, 80vw);
+  max-height: 70vh;
+  overflow: auto;
+  z-index: 10;
+  border: 1px solid var(--border);
+  background:
+    repeating-linear-gradient(
+      0deg,
+      rgba(0,0,0,.02),
+      rgba(0,0,0,.02) 1px,
+      transparent 1px,
+      transparent 4px
+    ),
+    var(--paper);
+  color: var(--paper-ink);
+  padding: 10px;
+  display: none;
+}
+
+.archive-panel h2{
+  font-size: 12px;
+  margin: 0 0 8px;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+}
+
+.archive-panel audio{
+  width: 100%;
+  margin: 6px 0;
+}
+
 @media (max-width: 700px){
   body{
     font-size: 14px;
@@ -148,7 +192,7 @@ button:hover{
   }
 
   .phrase{
-    font-size: 15px;
+    font-size: 17px;
   }
 }
 </style>
@@ -233,6 +277,39 @@ async function loadCreatures() {
 }
 
 loadCreatures().then(autoAdvanceSlides);
+
+const audioPanel = document.createElement("div");
+audioPanel.className = "archive-panel";
+audioPanel.innerHTML = `
+  <h2>Audio Archive</h2>
+  <div class="label">tape 001</div>
+  <audio controls preload="none">
+    <source src="audio/sound_0.wav" type="audio/wav">
+  </audio>
+  <div class="label">tape 002</div>
+  <audio controls preload="none">
+    <source src="audio/sound_1.wav" type="audio/wav">
+  </audio>
+  <div class="label">tape 003</div>
+  <audio controls preload="none">
+    <source src="audio/sound_2.wav" type="audio/wav">
+  </audio>
+  <div class="label">tape 004</div>
+  <audio controls preload="none">
+    <source src="audio/sound_3.wav" type="audio/wav">
+  </audio>
+`;
+
+const audioToggle = document.createElement("button");
+audioToggle.className = "archive-toggle";
+audioToggle.type = "button";
+audioToggle.textContent = "Audio Index";
+audioToggle.addEventListener("click", () => {
+  audioPanel.style.display = audioPanel.style.display === "block" ? "none" : "block";
+});
+
+document.body.appendChild(audioToggle);
+document.body.appendChild(audioPanel);
 </script>
 
 </html>
